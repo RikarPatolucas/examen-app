@@ -1,17 +1,9 @@
-// En src/components/QuestionCard.js
+// src/components/QuestionCard.js
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const QuestionCard = ({ 
-  question, 
-  selectedAnswer, 
-  onSelectAnswer, 
-  showAnswer 
-}) => {
-  
-  // Función para formatear la justificación
+const QuestionCard = ({ question, selectedAnswer, onSelectAnswer, showAnswer }) => {
   const formatJustification = (justificationText) => {
-    // Buscar patrones como "A.", "B.", "C.", "D." en la justificación
     const parts = [];
     const regex = /([A-D])\.\s+(.*?)(?=\s+[A-D]\.|$)/gs;
     let match;
@@ -23,14 +15,12 @@ const QuestionCard = ({
       });
     }
     
-    // Si no encontramos el formato esperado, devolver el texto original
     if (parts.length === 0) {
       return (
         <Text style={styles.justificationText}>{justificationText}</Text>
       );
     }
     
-    // Renderizar cada parte de la justificación con formato
     return parts.map((part, index) => (
       <View key={index} style={styles.justificationItem}>
         <Text style={styles.justificationOption}>{part.option}.</Text>

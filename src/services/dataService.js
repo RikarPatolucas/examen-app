@@ -1,13 +1,17 @@
 // src/services/dataService.js
 
-// Función para cargar las preguntas desde el archivo JSON
 export const fetchQuestions = async () => {
   try {
-    const response = await fetch('/questions.json');
+    console.log('Intentando cargar preguntas...');
+    const response = await fetch('/examen-app/questions.json');
+    
     if (!response.ok) {
-      throw new Error('No se pudieron cargar las preguntas');
+      console.error('Error al cargar preguntas:', response.status, response.statusText);
+      throw new Error(`No se pudieron cargar las preguntas: ${response.status}`);
     }
+    
     const data = await response.json();
+    console.log(`Preguntas cargadas: ${data.length}`);
     return data;
   } catch (error) {
     console.error('Error al cargar las preguntas:', error);
@@ -15,13 +19,20 @@ export const fetchQuestions = async () => {
   }
 };
 
-// Función para obtener preguntas aleatorias
 export const getRandomQuestions = (questions, count) => {
+  if (!questions || questions.length === 0) {
+    console.error('No hay preguntas disponibles para seleccionar aleatoriamente');
+    return [];
+  }
   const shuffled = [...questions].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
+  return shuffled.slice(0, Math.min(count, questions.length));
 };
 
-// Función para obtener preguntas por dominio
 export const getQuestionsByDomain = (questions, domain) => {
+  if (!questions || questions.length === 0) {
+    console.error('No hay preguntas disponibles para filtrar por dominio');
+    return [];
+  }
   return questions.filter(q => q.id.startsWith(domain));
 };
+
