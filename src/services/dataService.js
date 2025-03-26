@@ -3,7 +3,11 @@
 export const fetchQuestions = async () => {
   try {
     console.log('Intentando cargar preguntas...');
-    const response = await fetch('/examen-app/questions.json');
+    // Detectar si estamos en producción (GitHub Pages) o desarrollo local
+    const isProduction = window.location.hostname !== 'localhost';
+    const basePath = isProduction ? '/examen-app' : '';
+    const response = await fetch(`${basePath}/questions.json`);
+
     
     if (!response.ok) {
       console.error('Error al cargar preguntas:', response.status, response.statusText);
